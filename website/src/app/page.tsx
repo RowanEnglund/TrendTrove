@@ -7,6 +7,9 @@ export default function Home() {
       <Link href="/login" className="text-blue-500 hover:underline">
         Login
       </Link>
+      <Link href="/admin/dashboard" className="text-red-500 hover:underline mt-4">
+        Admin Dashboard
+      </Link>
     </main>
   );
 }
