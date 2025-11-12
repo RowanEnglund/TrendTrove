@@ -21,3 +21,10 @@
 
 -   **Category Selection**: Users can select their preferred product categories to personalize their feed.
 -   **Wishlist**: Users can save products to a wishlist for later viewing.
+
+## 4. Trend Analysis and Product Sourcing
+
+-   **Automated Trend Discovery**: TrendTrove will implement an automated system to analyze market trends from various data sources (e.g., social media, e-commerce platforms, search engine data).
+-   **Product Curation**: The system will identify emerging products and categories with high sales potential.
+-   **Supplier Integration**: Once a trending product is identified, the system will assist in finding and vetting potential suppliers.
+-   **Dynamic Listing**: New, trending products will be dynamically added to the platform to ensure the product catalog remains fresh and relevant.

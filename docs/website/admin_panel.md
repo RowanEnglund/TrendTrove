@@ -14,6 +14,10 @@
 -   **Sales Analytics**: Detailed reports on sales, revenue, and profit margins.
 -   **Customer Analytics**: Insights into customer demographics, purchase history, and behavior.
 -   **Product Trends**: Analytics on product performance, category popularity, and emerging trends.
+-   **Trend Analysis Dashboard**: A dedicated dashboard to monitor and analyze real-time market trends.
+    -   Visualize data from various sources.
+    -   Identify and track emerging products and categories.
+    -   Provide insights and recommendations for product sourcing.
 -   **Custom Reports**: Ability to generate custom reports based on specific criteria.
 
 ## 3. Management Features

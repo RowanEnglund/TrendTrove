@@ -14,7 +14,7 @@ This directory contains the full specification documents for the TrendTrove proj
 
 -   `authentication.md`: User account creation, login, and profile management.
 -   `payments.md`: Payment gateway integration, pricing, and order placement.
--   `products.md`: Product discovery, details, and user preferences.
+-   `products.md`: Product discovery, details, user preferences, and trend analysis.
 -   `dropshipping.md`: Dropshipping model and order fulfillment.
 
 ### Android
