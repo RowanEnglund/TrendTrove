@@ -7,6 +7,7 @@ This directory contains the full specification documents for the TrendTrove proj
 -   `android/`: Contains specifications unique to the Android application.
 -   `website/`: Contains specifications unique to the website, including the administration layer.
 -   `shared/`: Contains specifications that are common to both the Android app and the website.
+-   `technical/`: Contains the technical specifications for the project.
 
 ## Documents
 
@@ -24,3 +25,10 @@ This directory contains the full specification documents for the TrendTrove proj
 ### Website
 
 -   `admin_panel.md`: Website administration layer for analytics and management.
+
+### Technical
+
+-   `architecture.md`: System architecture and technology stack.
+-   `android_spec.md`: Detailed technical specification for the Android app.
+-   `website_spec.md`: Detailed technical specification for the website and admin panel.
+-   `phased_development.md`: A phased plan for the development of TrendTrove.
