@@ -9,6 +9,9 @@ This document tracks the progress of the TrendTrove project, based on the phased
 - [ ] **Product Discovery**:
   - [ ] Browse a curated list of trending products.
   - [ ] View product details.
+    - [ ] Include technical specifications.
+    - [ ] Include detailed descriptions.
+    - [ ] Include multiple images where applicable.
 - [ ] **E-commerce Core**:
   - [ ] Shopping cart functionality.
   - [ ] Secure checkout process with a single payment gateway (e.g., Stripe).
