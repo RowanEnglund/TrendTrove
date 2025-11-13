@@ -4,61 +4,145 @@ This document tracks the progress of the TrendTrove project, based on the phased
 
 ## Phase 1: Minimum Viable Product (MVP)
 
-- [x] **User Authentication**:
-  - [x] User registration and login with email and password.
-- [ ] **Product Discovery**:
-  - [ ] Browse a curated list of trending products.
-  - [ ] View product details.
-    - [ ] Include technical specifications.
-    - [ ] Include detailed descriptions.
-    - [ ] Include multiple images where applicable.
-- [ ] **E-commerce Core**:
-  - [ ] Shopping cart functionality.
-  - [ ] Secure checkout process with a single payment gateway (e.g., Stripe).
-  - [ ] Order placement and ability to view order history.
-- [ ] **Platforms**:
-  - [ ] A functional Android app.
-  - [x] A responsive website for consumers.
-- [ ] **Admin Panel (Basic)**:
-  - [ ] Manual management of products (add, edit, remove).
-  - [ ] View and manage orders.
+### User Authentication
+- **Backend (`user-service`)**
+  - [x] `User` entity with email, hashed password.
+  - [x] `UserService` for user CRUD and validation.
+  - [x] `AuthController` for registration and login endpoints.
+  - [x] JWT-based authentication for securing endpoints.
+- **Frontend (`website`)**
+  - [x] Registration page with form.
+  - [x] Login page with form.
+  - [x] Logic to call backend API for registration/login.
+  - [x] Logic to store and manage JWT in the browser.
+
+### Product Discovery
+- **Backend (`trend-analysis-service`)**
+  - [ ] Define a `Product` entity (name, description, price, images, specs).
+  - [ ] Create `ProductService` for product CRUD.
+  - [ ] Create `ProductController` with endpoints for product lists and details.
+  - [ ] Implement a mechanism to periodically fetch and store trending products from external APIs.
+- **Frontend (`website`)**
+  - [ ] Product listing page (grid view).
+  - [ ] Product detail page.
+  - [ ] Logic to fetch product data from the backend.
+
+### E-commerce Core
+- **Backend (new service: `order-service`)**
+  - [ ] `Order` entity (user, products, total price, status).
+  - [ ] `Cart` entity for shopping cart contents.
+  - [ ] `OrderService` for order CRUD.
+  - [ ] `CartService` for cart management.
+  - [ ] `CheckoutController` to handle checkout.
+  - [ ] Integrate with Stripe.
+- **Frontend (`website`)**
+  - [ ] Shopping cart component.
+  - [ ] Checkout page with shipping/payment form.
+  - [ ] Logic to call backend for cart and order management.
+
+### Platforms
+- **Android App**
+  - [ ] Set up new Android project.
+  - [ ] Implement user authentication screens.
+  - [ ] Implement product discovery screens.
+  - [ ] Implement e-commerce core features.
+- **Responsive Website**
+  - [x] Set up Next.js project.
+  - [x] Use Tailwind CSS for responsive design.
+
+### Admin Panel (Basic)
+- **Backend (new service: `admin-service`)**
+  - [ ] Endpoints for product management (CRUD).
+  - [ ] Endpoints for viewing and managing orders.
+- **Frontend (`website`)**
+  - [ ] Admin dashboard for product management.
+  - [ ] Admin dashboard for order management.
 
 ## Phase 2: Enhancing User Experience and Engagement
 
-- [ ] **Enhanced Authentication**:
-  - [ ] Social login options (Google, Facebook).
-- [ ] **Personalization**:
-  - [ ] Ability for users to set their preferred product categories.
-  - [ ] A personalized feed of trending products.
-  - [ ] Wishlist functionality.
-- [ ] **User Interaction**:
-  - [ ] Customer reviews and ratings on products.
-  - [ ] Push notifications for order status updates on Android.
-- [ ] **UI/UX Improvements**:
-  - [ ] Refine the user interface and experience on both platforms based on user feedback.
+### Enhanced Authentication
+- **Backend (`user-service`)**
+  - [ ] Integrate with Google and Facebook OAuth.
+  - [ ] Update `AuthController` for social login callbacks.
+- **Frontend (`website`)**
+  - [ ] Add "Login with Google/Facebook" buttons.
+
+### Personalization
+- **Backend (`user-service`)**
+  - [ ] `Preferences` entity for user's preferred categories.
+  - [ ] Update `UserService` to manage preferences.
+  - [ ] `Wishlist` entity for wishlisted products.
+  - [ ] `WishlistService` to manage wishlists.
+- **Backend (`trend-analysis-service`)**
+  - [ ] Algorithm for personalized product feed.
+- **Frontend (`website`)**
+  - [ ] User profile page for setting preferred categories.
+  - [ ] Wishlist page.
+  - [ ] Update product listing page to display personalized feed.
+
+### User Interaction
+- **Backend (new service: `review-service`)**
+  - [ ] `Review` entity (user, product, rating, comment).
+  - [ ] `ReviewService` for review CRUD.
+- **Frontend (`website`)**
+  - [ ] Review section on product detail page.
+  - [ ] Form for submitting reviews.
+
+### UI/UX Improvements
+- **Frontend (`website`)**
+  - [ ] Conduct user testing.
+  - [ ] Refine UI/UX based on feedback.
 
 ## Phase 3: Automation and Scaling
 
-- [ ] **Trend Analysis and Sourcing**:
-  - [ ] Implement the automated Trend Analysis service to identify and suggest new products.
-- [ ] **Admin Panel (Advanced)**:
-  - [ ] A comprehensive dashboard with analytics on sales, customers, and product trends.
-  - [ ] Tools for managing suppliers.
-- [ ] **Platform Expansion**:
-  - [ ] Integration with multiple payment gateways.
-  - [ ] Support for internationalization (multiple currencies and languages).
-- [ ] **Improved Search**:
-  - [ ] Add advanced search and filtering options (e.g., by price, rating).
+### Trend Analysis and Sourcing
+- **Backend (`trend-analysis-service`)**
+  - [ ] Implement a more sophisticated trend analysis algorithm.
+  - [ ] Integrate with multiple external APIs for product data.
+
+### Admin Panel (Advanced)
+- **Backend (`admin-service`)**
+  - [ ] Endpoints for viewing analytics (sales, customers, product trends).
+  - [ ] Endpoints for managing suppliers.
+- **Frontend (`website`)**
+  - [ ] Comprehensive admin dashboard with analytics charts.
+  - [ ] Admin dashboard for managing suppliers.
+
+### Platform Expansion
+- **Backend (`order-service`)**
+  - [ ] Integrate with multiple payment gateways.
+  - [ ] Add support for multiple currencies and languages.
+
+### Improved Search
+- **Backend (`product-service`)**
+  - [ ] Implement advanced search and filtering (price, rating, etc.).
+- **Frontend (`website`)**
+  - [ ] Add search bar to product listing page.
+  - [ ] Add filtering options to product listing page.
 
 ## Phase 4: Full-Featured Platform and Optimization
 
-- [ ] **Customer Support**:
-  - [ ] An integrated customer support ticket system.
-- [ ] **Marketing and Promotions**:
-  - [ ] Tools for creating and managing promotional campaigns (e.g., discount codes).
-- [ ] **Performance and Optimization**:
-  - [ ] Conduct A/B testing to optimize the user journey.
-  - [ ] Implement advanced caching strategies and performance monitoring.
-- [ ] **Infrastructure**:
-  - [ ] Full CI/CD automation for streamlined deployments.
-  - [ ] Scale the infrastructure to handle increased traffic and data.
+### Customer Support
+- **Backend (new service: `support-service`)**
+  - [ ] `Ticket` entity for customer support tickets.
+  - [ ] `SupportService` to manage tickets.
+- **Frontend (`website`)**
+  - [ ] Customer support page with a form for submitting tickets.
+
+### Marketing and Promotions
+- **Backend (new service: `marketing-service`)**
+  - [ ] `Discount` entity for promotional codes.
+  - [ ] `MarketingService` to manage promotional campaigns.
+- **Frontend (`website`)**
+  - [ ] Add a field for entering discount codes at checkout.
+
+### Performance and Optimization
+- **Backend**
+  - [ ] Implement caching strategies.
+  - [ ] Implement performance monitoring and logging.
+- **Frontend (`website`)**
+  - [ ] Conduct A/B testing.
+
+### Infrastructure
+- [ ] Set up a CI/CD pipeline.
+- [ ] Scale infrastructure.
