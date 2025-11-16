@@ -52,8 +52,8 @@ This document tracks the progress of the TrendTrove project, based on the phased
 
 ### Admin Panel (Basic)
 - **Backend (new service: `admin-service`)**
-  - [ ] Endpoints for product management (CRUD).
-  - [ ] Endpoints for viewing and managing orders.
+  - [x] Endpoints for product management (CRUD).
+  - [x] Endpoints for viewing and managing orders.
 - **Frontend (`website`)**
   - [ ] Admin dashboard for product management.
   - [ ] Admin dashboard for order management.
