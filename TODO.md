@@ -55,8 +55,8 @@ This document tracks the progress of the TrendTrove project, based on the phased
   - [x] Endpoints for product management (CRUD).
   - [x] Endpoints for viewing and managing orders.
 - **Frontend (`website`)**
-  - [ ] Admin dashboard for product management.
-  - [ ] Admin dashboard for order management.
+  - [x] Admin dashboard for product management.
+  - [x] Admin dashboard for order management.
 
 ## Phase 2: Enhancing User Experience and Engagement
 

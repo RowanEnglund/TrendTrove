@@ -21,6 +21,13 @@ export class OrdersService {
     return data;
   }
 
+  async create(orderData: Omit<Order, 'id'>): Promise<Order> {
+    const { data } = await firstValueFrom(
+      this.httpService.post(this.baseUrl, orderData),
+    );
+    return data;
+  }
+
   async update(id: number, updateData: Partial<Order>): Promise<Order> {
     const { data } = await firstValueFrom(
       this.httpService.put(`${this.baseUrl}/${id}`, updateData),
