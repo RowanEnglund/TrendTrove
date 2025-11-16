@@ -17,13 +17,15 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import HomeIcon from '@mui/icons-material/Home';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import GroupIcon from '@mui/icons-material/Group';
 import Link from 'next/link';
+import { useAuth } from '@/context/auth.context';
 
 const drawerWidth = 240;
 
@@ -79,6 +81,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 export default function MainLayout({ children }: { children: React.ReactNode }) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const { user, logout } = useAuth();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -90,10 +93,13 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
 
   const navLinks = [
     { text: 'Home', href: '/', icon: <HomeIcon /> },
-    { text: 'Login', href: '/login', icon: <LockOpenIcon /> },
     { text: 'Products', href: '/products', icon: <ShoppingCartIcon /> },
-    { text: 'Admin', href: '/admin/dashboard', icon: <AdminPanelSettingsIcon /> },
   ];
+
+  if (user?.role === 'admin') {
+    navLinks.push({ text: 'Admin', href: '/admin/dashboard', icon: <AdminPanelSettingsIcon /> });
+    navLinks.push({ text: 'Users', href: '/admin/users', icon: <GroupIcon /> });
+  }
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -109,9 +115,23 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
+          <Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
             TrendTrove
           </Typography>
+          {user ? (
+            <>
+              <IconButton component={Link} href="/profile" color="inherit">
+                <AccountCircleIcon />
+              </IconButton>
+              <IconButton onClick={logout} color="inherit">
+                <ExitToAppIcon />
+              </IconButton>
+            </>
+          ) : (
+            <IconButton component={Link} href="/login" color="inherit">
+              <LockOpenIcon />
+            </IconButton>
+          )}
         </Toolbar>
       </AppBar>
       <Drawer
@@ -128,13 +148,13 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
         open={open}
       >
         <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
+          <IconButton onClick={handleDrawerClose} aria-label="close drawer">
             {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List>
-          {navLinks.map((link, index) => (
+        <List component="nav">
+          {navLinks.map((link) => (
             <ListItem key={link.text} disablePadding>
               <ListItemButton component={Link} href={link.href}>
                 <ListItemIcon>

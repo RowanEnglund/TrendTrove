@@ -1,8 +1,11 @@
 'use client';
 import { Container, Grid, Card, CardContent, Typography, CardActions, Button } from '@mui/material';
 import Link from 'next/link';
+import { useAuth } from '@/context/auth.context';
 
 export default function Home() {
+  const { user } = useAuth();
+
   return (
     <Container maxWidth="lg">
       <Typography variant="h4" component="h1" gutterBottom sx={{ my: 4 }}>
@@ -45,24 +48,26 @@ export default function Home() {
             </CardActions>
           </Card>
         </Grid>
-        <Grid item xs={12} md={4}>
-          <Card>
-            <CardContent>
-              <Typography variant="h5" component="div">
-                Admin Dashboard
-              </Typography>
-              <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                For administrators
-              </Typography>
-              <Typography variant="body2">
-                Manage products, orders, and users.
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button component={Link} href="/admin/dashboard" size="small">Admin Login</Button>
-            </CardActions>
-          </Card>
-        </Grid>
+        {user?.role === 'admin' && (
+          <Grid item xs={12} md={4}>
+            <Card>
+              <CardContent>
+                <Typography variant="h5" component="div">
+                  Admin Dashboard
+                </Typography>
+                <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                  For administrators
+                </Typography>
+                <Typography variant="body2">
+                  Manage products, orders, and users.
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <Button component={Link} href="/admin/dashboard" size="small">Admin Login</Button>
+              </CardActions>
+            </Card>
+          </Grid>
+        )}
       </Grid>
     </Container>
   );

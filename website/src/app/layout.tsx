@@ -1,18 +1,10 @@
-import type { Metadata } from "next";
+'use client';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import { ThemeProvider } from '@mui/material/styles';
 import theme from '../theme';
 import "./globals.css";
 import MainLayout from "@/components/layout/MainLayout";
-
-
-export const metadata: Metadata = {
-  title: {
-    template: '%s | TrendTrove',
-    default: 'TrendTrove',
-  },
-  description: "TrendTrove E-commerce Platform",
-};
+import { AuthProvider } from "@/context/auth.context";
 
 export default function RootLayout({
   children,
@@ -22,11 +14,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <AppRouterCacheProvider>
-          <ThemeProvider theme={theme}>
-            <MainLayout>{children}</MainLayout>
-          </ThemeProvider>
-        </AppRouterCacheProvider>
+        <AuthProvider>
+          <AppRouterCacheProvider>
+            <ThemeProvider theme={theme}>
+              <MainLayout>{children}</MainLayout>
+            </ThemeProvider>
+          </AppRouterCacheProvider>
+        </AuthProvider>
       </body>
     </html>
   );
