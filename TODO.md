@@ -29,15 +29,15 @@ This document tracks the progress of the TrendTrove project, based on the phased
 
 ### E-commerce Core
 - **Backend (new service: `order-service`)**
-  - [ ] `Order` entity (user, products, total price, status).
-  - [ ] `Cart` entity for shopping cart contents.
-  - [ ] `OrderService` for order CRUD.
-  - [ ] `CartService` for cart management.
+  - [x] `Order` entity (user, products, total price, status).
+  - [x] `Cart` entity for shopping cart contents.
+  - [x] `OrderService` for order CRUD.
+  - [x] `CartService` for cart management.
   - [ ] `CheckoutController` to handle checkout.
   - [ ] Integrate with Stripe.
 - **Frontend (`website`)**
-  - [ ] Shopping cart component.
-  - [ ] Checkout page with shipping/payment form.
+  - [x] Shopping cart component.
+  - [x] Checkout page with shipping/payment form.
   - [ ] Logic to call backend for cart and order management.
 
 ### Platforms
