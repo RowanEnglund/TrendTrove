@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Product } from './product.entity';
 
 @Injectable()
 export class ProductService {
-  private readonly products: Product[] = [
+  private products: Product[] = [
     {
       id: 1,
       name: 'Wireless Headphones',
@@ -27,16 +27,48 @@ export class ProductService {
       },
     },
   ];
+  private nextId = 3;
 
   findAll(): Product[] {
     return this.products;
   }
 
   findOne(id: number): Product {
-    return this.products.find((product) => product.id === id);
+    const product = this.products.find((product) => product.id === id);
+    if (!product) {
+      throw new NotFoundException(`Product with ID ${id} not found`);
+    }
+    return product;
   }
 
   findBatch(ids: number[]): Product[] {
     return this.products.filter((product) => ids.includes(product.id));
+  }
+
+  create(productData: Omit<Product, 'id'>): Product {
+    const newProduct: Product = {
+      id: this.nextId++,
+      ...productData,
+    };
+    this.products.push(newProduct);
+    return newProduct;
+  }
+
+  update(id: number, updateData: Partial<Product>): Product {
+    const productIndex = this.products.findIndex((p) => p.id === id);
+    if (productIndex === -1) {
+      throw new NotFoundException(`Product with ID ${id} not found`);
+    }
+    const updatedProduct = { ...this.products[productIndex], ...updateData };
+    this.products[productIndex] = updatedProduct;
+    return updatedProduct;
+  }
+
+  delete(id: number): void {
+    const productIndex = this.products.findIndex((p) => p.id === id);
+    if (productIndex === -1) {
+      throw new NotFoundException(`Product with ID ${id} not found`);
+    }
+    this.products.splice(productIndex, 1);
   }
 }

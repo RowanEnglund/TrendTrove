@@ -1,4 +1,4 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, NotFoundException } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { OrderService } from './order.service';
 import { CartService } from './cart.service';
@@ -15,14 +15,16 @@ export class CheckoutController {
 
   @Post()
   async checkout(@Body() body: { userId: number }): Promise<Order> {
-    const cart = this.cartService.findByUserId(body.userId);
+    const cart = this.cartService.getCart(body.userId);
     if (!cart || cart.products.length === 0) {
-      throw new Error('Cart is empty');
+      throw new NotFoundException('Cart is empty');
     }
 
     const productIds = cart.products.map((p) => p.productId);
     const { data: products } = await firstValueFrom(
-      this.httpService.post('http://localhost:3000/products/batch', { ids: productIds }),
+      this.httpService.post('http://localhost:3000/products/batch', {
+        ids: productIds,
+      }),
     );
 
     const totalPrice = cart.products.reduce((acc, p) => {
@@ -38,7 +40,7 @@ export class CheckoutController {
     });
 
     // Clear the cart
-    this.cartService.update({ ...cart, products: [] });
+    this.cartService.clearCart(body.userId);
 
     return newOrder;
   }

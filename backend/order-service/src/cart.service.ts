@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Cart } from './cart.entity';
 
 @Injectable()
 export class CartService {
-  private readonly carts: Cart[] = [
+  private carts: Cart[] = [
     {
       id: 1,
       userId: 1,
@@ -13,20 +13,52 @@ export class CartService {
       ],
     },
   ];
+  private nextId = 2;
 
-  findByUserId(userId: number): Cart {
-    return this.carts.find((cart) => cart.userId === userId);
+  getCart(userId: number): Cart {
+    let cart = this.carts.find((cart) => cart.userId === userId);
+    if (!cart) {
+      cart = { id: this.nextId++, userId, products: [] };
+      this.carts.push(cart);
+    }
+    return cart;
   }
 
-  update(cart: Cart): Cart {
-    const index = this.carts.findIndex((c) => c.id === cart.id);
-    if (index > -1) {
-      this.carts[index] = cart;
-      return cart;
+  addProduct(
+    userId: number,
+    productId: number,
+    quantity: number,
+  ): Cart {
+    const cart = this.getCart(userId);
+    const productIndex = cart.products.findIndex(
+      (p) => p.productId === productId,
+    );
+
+    if (productIndex > -1) {
+      cart.products[productIndex].quantity += quantity;
+    } else {
+      cart.products.push({ productId, quantity });
     }
-    // If cart doesn't exist, create it
-    const newCart = { ...cart, id: this.carts.length + 1 };
-    this.carts.push(newCart);
-    return newCart;
+    return cart;
+  }
+
+  removeProduct(userId: number, productId: number): Cart {
+    const cart = this.getCart(userId);
+    const productIndex = cart.products.findIndex(
+      (p) => p.productId === productId,
+    );
+    if (productIndex === -1) {
+      throw new NotFoundException(
+        `Product with ID ${productId} not found in cart`,
+      );
+    }
+    cart.products.splice(productIndex, 1);
+    return cart;
+  }
+
+  clearCart(userId: number): Cart {
+    const cart = this.getCart(userId);
+    cart.products = [];
+    return cart;
   }
 }
