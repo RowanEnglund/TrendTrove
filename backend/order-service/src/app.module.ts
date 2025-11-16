@@ -6,10 +6,11 @@ import { CheckoutController } from './checkout.controller';
 import { OrderService } from './order.service';
 import { CartService } from './cart.service';
 import { CartController } from './cart.controller';
+import { StripeService } from './stripe.service';
 
 @Module({
   imports: [HttpModule],
   controllers: [AppController, CheckoutController, CartController],
-  providers: [AppService, OrderService, CartService],
+  providers: [AppService, OrderService, CartService, StripeService],
 })
 export class AppModule {}
