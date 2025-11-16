@@ -1,12 +1,15 @@
 import { Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { User } from '../user/user.store';
 
 @Injectable()
 export class AuthService {
+  constructor(private readonly jwtService: JwtService) {}
+
   login(user: any) {
-    // a-64 adding placeholder for login
+    const payload = { email: user.email, sub: user.id, role: user.role };
     return {
-      message: 'User logged in successfully.',
-      user,
+      access_token: this.jwtService.sign(payload),
     };
   }
 
@@ -23,9 +26,10 @@ export class AuthService {
       return 'No user from google';
     }
 
+    const user = req.user as User;
+    const payload = { email: user.email, sub: user.id, role: user.role };
     return {
-      message: 'User information from google',
-      user: req.user,
+      access_token: this.jwtService.sign(payload),
     };
   }
 }

@@ -1,7 +1,8 @@
 'use client';
 import { Container, Typography, Paper } from '@mui/material';
+import { withAuth } from '@/hoc/withAuth';
 
-export default function AdminDashboardPage() {
+function AdminDashboardPage() {
   return (
     <Container maxWidth="lg">
       <Typography variant="h4" component="h1" gutterBottom sx={{ my: 4 }}>
@@ -15,3 +16,5 @@ export default function AdminDashboardPage() {
     </Container>
   );
 }
+
+export default withAuth(AdminDashboardPage, ['admin']);
