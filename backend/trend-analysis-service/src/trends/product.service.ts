@@ -1,5 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Cron } from '@nestjs/schedule';
+import { HttpService } from '@nestjs/axios';
+import { firstValueFrom } from 'rxjs';
 import { Product } from './product.entity';
 
 @Injectable()
@@ -14,6 +16,7 @@ export class ProductService {
       specs: {
         color: 'Black',
         brand: 'TrendTrove',
+        category: 'Electronics',
       },
     },
     {
@@ -25,12 +28,42 @@ export class ProductService {
       specs: {
         color: 'Silver',
         brand: 'TrendTrove',
+        category: 'Electronics',
+      },
+    },
+    {
+      id: 3,
+      name: 'T-Shirt',
+      description: 'A comfortable and stylish t-shirt.',
+      price: 29.99,
+      images: [],
+      specs: {
+        color: 'White',
+        brand: 'TrendTrove',
+        category: 'Apparel',
       },
     },
   ];
-  private nextId = 3;
+  private nextId = 4;
 
-  findAll(): Product[] {
+  constructor(private readonly httpService: HttpService) {}
+
+  async findAll(userId?: number): Promise<Product[]> {
+    if (userId) {
+      try {
+        const { data: preferences } = await firstValueFrom(
+          this.httpService.get(`http://localhost:3004/preferences/${userId}`),
+        );
+        if (preferences && preferences.categories.length > 0) {
+          return this.products.filter((p) =>
+            preferences.categories.includes(p.specs.category),
+          );
+        }
+      } catch (error) {
+        // If the user service is down or the user has no preferences, return all products
+        return this.products;
+      }
+    }
     return this.products;
   }
 
@@ -84,7 +117,9 @@ export class ProductService {
       description: 'This is a hot new product.',
       price: Math.floor(Math.random() * 1000),
       images: [],
-      specs: {},
+      specs: {
+        category: ['Electronics', 'Apparel'][Math.floor(Math.random() * 2)],
+      },
     };
     this.products.push(newProduct);
     console.log('Trending products updated.');

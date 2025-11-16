@@ -7,6 +7,7 @@ import {
   Put,
   Delete,
   HttpCode,
+  Query,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { Product } from './product.entity';
@@ -16,8 +17,8 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Get()
-  findAll(): Product[] {
-    return this.productService.findAll();
+  findAll(@Query('userId') userId?: string): Promise<Product[]> {
+    return this.productService.findAll(userId ? +userId : undefined);
   }
 
   @Post('batch')

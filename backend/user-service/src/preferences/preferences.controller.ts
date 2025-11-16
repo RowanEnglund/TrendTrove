@@ -1,22 +1,21 @@
-import { Controller, Get, Put, Body } from '@nestjs/common';
+import { Controller, Get, Put, Param, Body } from '@nestjs/common';
 import { PreferencesService } from './preferences.service';
-import { UpdatePreferencesDto } from './dto/update-preferences.dto';
+import { Preferences } from './preferences.entity';
 
 @Controller('preferences')
 export class PreferencesController {
   constructor(private readonly preferencesService: PreferencesService) {}
 
-  @Get()
-  getPreferences() {
-    // a-64: placeholder user id
-    const userId = '123';
-    return this.preferencesService.getPreferences(userId);
+  @Get(':userId')
+  getPreferences(@Param('userId') userId: string): Preferences {
+    return this.preferencesService.getPreferences(+userId);
   }
 
-  @Put()
-  updatePreferences(@Body() updatePreferencesDto: UpdatePreferencesDto) {
-    // a-64: placeholder user id
-    const userId = '123';
-    return this.preferencesService.updatePreferences(userId, updatePreferencesDto);
+  @Put(':userId')
+  updatePreferences(
+    @Param('userId') userId: string,
+    @Body() body: { categories: string[] },
+  ): Preferences {
+    return this.preferencesService.updatePreferences(+userId, body.categories);
   }
 }
