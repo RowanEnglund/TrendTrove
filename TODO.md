@@ -19,7 +19,7 @@ This document tracks the progress of the TrendTrove project, based on the phased
 ### Product Discovery
 - **Backend (`trend-analysis-service`)**
   - [x] Define a `Product` entity (name, description, price, images, specs).
-  - [ ] Create `ProductService` for product CRUD.
+  - [x] Create `ProductService` for product CRUD.
   - [x] Create `ProductController` with endpoints for product lists and details.
   - [ ] Implement a mechanism to periodically fetch and store trending products from external APIs.
 - **Frontend (`website`)**
@@ -31,8 +31,8 @@ This document tracks the progress of the TrendTrove project, based on the phased
 - **Backend (new service: `order-service`)**
   - [x] `Order` entity (user, products, total price, status).
   - [x] `Cart` entity for shopping cart contents.
-  - [ ] `OrderService` for order CRUD.
-  - [ ] `CartService` for cart management.
+  - [x] `OrderService` for order CRUD.
+  - [x] `CartService` for cart management.
   - [x] `CheckoutController` to handle checkout.
   - [ ] Integrate with Stripe.
 - **Frontend (`website`)**
