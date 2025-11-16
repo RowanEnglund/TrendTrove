@@ -69,16 +69,16 @@ This document tracks the progress of the TrendTrove project, based on the phased
 
 ### Personalization
 - **Backend (`user-service`)**
-  - [ ] `Preferences` entity for user's preferred categories.
-  - [ ] Update `UserService` to manage preferences.
-  - [ ] `Wishlist` entity for wishlisted products.
-  - [ ] `WishlistService` to manage wishlists.
+  - [x] `Preferences` entity for user's preferred categories.
+  - [x] Update `UserService` to manage preferences.
+  - [x] `Wishlist` entity for wishlisted products.
+  - [x] `WishlistService` to manage wishlists.
 - **Backend (`trend-analysis-service`)**
-  - [ ] Algorithm for personalized product feed.
+  - [x] Algorithm for personalized product feed.
 - **Frontend (`website`)**
-  - [ ] User profile page for setting preferred categories.
-  - [ ] Wishlist page.
-  - [ ] Update product listing page to display personalized feed.
+  - [x] User profile page for setting preferred categories.
+  - [x] Wishlist page.
+  - [x] Update product listing page to display personalized feed.
 
 ### User Interaction
 - **Backend (new service: `review-service`)**
