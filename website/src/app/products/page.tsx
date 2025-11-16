@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { Container, Grid, Card, CardActionArea, CardMedia, CardContent, Typography } from '@mui/material';
 
 type Product = {
   id: number;
@@ -34,18 +35,34 @@ export default function ProductsPage() {
   }, []);
 
   return (
-    <div className="container mx-auto px-4">
-      <h1 className="text-4xl font-bold my-8">Products</h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+    <Container maxWidth="lg">
+      <Typography variant="h4" component="h1" gutterBottom sx={{ my: 4 }}>
+        Products
+      </Typography>
+      <Grid container spacing={4}>
         {products.map((product) => (
-          <Link key={product.id} href={`/products/${product.id}`}>
-            <div className="border rounded-lg p-4 h-full">
-              <h2 className="text-xl font-semibold">{product.name}</h2>
-              <p className="text-gray-600">${product.price}</p>
-            </div>
-          </Link>
+          <Grid item key={product.id} xs={12} sm={6} md={4}>
+            <Card>
+              <CardActionArea component={Link} href={`/products/${product.id}`}>
+                <CardMedia
+                  component="img"
+                  height="140"
+                  image={product.images[0] || 'https://via.placeholder.com/150'}
+                  alt={product.name}
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    {product.name}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    ${product.price}
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Grid>
         ))}
-      </div>
-    </div>
+      </Grid>
+    </Container>
   );
 }

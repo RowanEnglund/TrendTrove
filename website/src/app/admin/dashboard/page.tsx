@@ -1,8 +1,17 @@
+'use client';
+import { Container, Typography, Paper } from '@mui/material';
+
 export default function AdminDashboardPage() {
   return (
-    <div className="container mx-auto px-4">
-      <h1 className="text-4xl font-bold my-8">Admin Dashboard</h1>
-      <p>Welcome to the admin dashboard.</p>
-    </div>
+    <Container maxWidth="lg">
+      <Typography variant="h4" component="h1" gutterBottom sx={{ my: 4 }}>
+        Admin Dashboard
+      </Typography>
+      <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+        <Typography>
+          Welcome to the admin dashboard. Use the sidebar to navigate to the different admin sections.
+        </Typography>
+      </Paper>
+    </Container>
   );
 }
