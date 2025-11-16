@@ -1,7 +1,14 @@
-import { Controller, Post, Body, NotFoundException } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { OrderService } from './order.service';
 import { CartService } from './cart.service';
+import { StripeService } from './stripe.service';
 import { Order } from './order.entity';
 import { firstValueFrom } from 'rxjs';
 
@@ -11,10 +18,13 @@ export class CheckoutController {
     private readonly orderService: OrderService,
     private readonly cartService: CartService,
     private readonly httpService: HttpService,
+    private readonly stripeService: StripeService,
   ) {}
 
   @Post()
-  async checkout(@Body() body: { userId: number }): Promise<Order> {
+  async checkout(
+    @Body() body: { userId: number; paymentMethodId: string },
+  ): Promise<Order> {
     const cart = this.cartService.getCart(body.userId);
     if (!cart || cart.products.length === 0) {
       throw new NotFoundException('Cart is empty');
@@ -32,11 +42,20 @@ export class CheckoutController {
       return acc + p.quantity * (product?.price || 0);
     }, 0);
 
+    // Process payment
+    const charge = await this.stripeService.charge(
+      totalPrice,
+      body.paymentMethodId,
+    );
+    if (!charge.success) {
+      throw new BadRequestException('Payment failed');
+    }
+
     const newOrder = this.orderService.create({
       userId: body.userId,
       products: cart.products,
       totalPrice,
-      status: 'pending',
+      status: 'completed',
     });
 
     // Clear the cart

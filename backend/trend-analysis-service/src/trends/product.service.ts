@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { Cron } from '@nestjs/schedule';
 import { Product } from './product.entity';
 
 @Injectable()
@@ -70,5 +71,22 @@ export class ProductService {
       throw new NotFoundException(`Product with ID ${id} not found`);
     }
     this.products.splice(productIndex, 1);
+  }
+
+  @Cron('0 * * * *') // Run every hour
+  handleCron() {
+    console.log('Fetching trending products...');
+    // In a real application, you would fetch data from an external API here.
+    // For this mock, we'll just add a new product.
+    const newProduct: Product = {
+      id: this.nextId++,
+      name: `Trending Product #${this.nextId}`,
+      description: 'This is a hot new product.',
+      price: Math.floor(Math.random() * 1000),
+      images: [],
+      specs: {},
+    };
+    this.products.push(newProduct);
+    console.log('Trending products updated.');
   }
 }
