@@ -20,13 +20,15 @@ export class CheckoutController {
       throw new Error('Cart is empty');
     }
 
-    const totalPrice = await cart.products.reduce(async (accPromise, p) => {
-      const acc = await accPromise;
-      const { data: product } = await firstValueFrom(
-        this.httpService.get(`http://localhost:3000/products/${p.productId}`),
-      );
-      return acc + p.quantity * product.price;
-    }, Promise.resolve(0));
+    const productIds = cart.products.map((p) => p.productId);
+    const { data: products } = await firstValueFrom(
+      this.httpService.post('http://localhost:3000/products/batch', { ids: productIds }),
+    );
+
+    const totalPrice = cart.products.reduce((acc, p) => {
+      const product = products.find((prod) => prod.id === p.productId);
+      return acc + p.quantity * (product?.price || 0);
+    }, 0);
 
     const newOrder = this.orderService.create({
       userId: body.userId,

@@ -35,4 +35,8 @@ export class ProductService {
   findOne(id: number): Product {
     return this.products.find((product) => product.id === id);
   }
+
+  findBatch(ids: number[]): Product[] {
+    return this.products.filter((product) => ids.includes(product.id));
+  }
 }

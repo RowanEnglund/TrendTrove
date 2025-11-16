@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { Product } from './product.entity';
 
@@ -9,6 +9,11 @@ export class ProductController {
   @Get()
   findAll(): Product[] {
     return this.productService.findAll();
+  }
+
+  @Post('batch')
+  findBatch(@Body() body: { ids: number[] }): Product[] {
+    return this.productService.findBatch(body.ids);
   }
 
   @Get(':id')
