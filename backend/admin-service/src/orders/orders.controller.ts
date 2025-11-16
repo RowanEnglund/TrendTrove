@@ -1,6 +1,7 @@
 import {
   Controller,
   Get,
+  Post,
   Put,
   Delete,
   Param,
@@ -22,6 +23,11 @@ export class OrdersController {
   @Get(':id')
   findOne(@Param('id') id: string): Promise<Order> {
     return this.ordersService.findOne(+id);
+  }
+
+  @Post()
+  create(@Body() orderData: Omit<Order, 'id'>): Promise<Order> {
+    return this.ordersService.create(orderData);
   }
 
   @Put(':id')
