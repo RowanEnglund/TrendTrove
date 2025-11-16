@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 type Trend = {
@@ -36,14 +37,14 @@ export default function DashboardPage() {
             ))}
           </ul>
         </div>
-        <div className="p-4 border rounded">
-          <h2 className="text-2xl font-bold mb-4">Sales Analytics</h2>
-          <p>Sales data will be displayed here.</p>
-        </div>
-        <div className="p-4 border rounded">
-          <h2 className="text-2xl font-bold mb-4">User Management</h2>
-          <p>User data will be displayed here.</p>
-        </div>
+        <Link href="/admin/products" className="p-4 border rounded block hover:bg-gray-50">
+          <h2 className="text-2xl font-bold mb-4">Product Management</h2>
+          <p>Manage products, categories, and inventory.</p>
+        </Link>
+        <Link href="/admin/orders" className="p-4 border rounded block hover:bg-gray-50">
+          <h2 className="text-2xl font-bold mb-4">Order Management</h2>
+          <p>View and manage customer orders.</p>
+        </Link>
       </div>
     </main>
   );

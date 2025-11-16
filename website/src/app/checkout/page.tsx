@@ -3,6 +3,14 @@
 import { useEffect, useState } from 'react';
 import ShoppingCart from '@/components/ShoppingCart';
 
+const LOGGED_IN_USER_ID = 1;
+
+type Product = {
+  id: number;
+  name: string;
+  price: number;
+};
+
 type CartProduct = {
   productId: number;
   name: string;
@@ -22,28 +30,34 @@ export default function CheckoutPage() {
 
   useEffect(() => {
     async function fetchAndHydrateCart() {
-      // Assuming a userId of 1 for now
       try {
-        const cartRes = await fetch('http://localhost:3001/cart/1');
+        const cartRes = await fetch(`http://localhost:3001/cart/${LOGGED_IN_USER_ID}`);
         if (!cartRes.ok) {
           console.error('Failed to fetch cart');
           return;
         }
         const cart: Cart = await cartRes.json();
 
-        const hydratedProducts = await Promise.all(
-          cart.products.map(async (item) => {
-            const productRes = await fetch(`http://localhost:3000/products/${item.productId}`);
-            if (!productRes.ok) {
-              console.error(`Failed to fetch product ${item.productId}`);
-              return null;
-            }
-            const product = await productRes.json();
-            return { ...item, name: product.name, price: product.price };
-          })
-        );
+        const productIds = cart.products.map((p) => p.productId);
+        const productRes = await fetch('http://localhost:3000/products/batch', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ ids: productIds }),
+        });
+        if (!productRes.ok) {
+          console.error('Failed to fetch products');
+          return;
+        }
+        const products: Product[] = await productRes.json();
 
-        setHydratedCart({ products: hydratedProducts.filter(p => p !== null) as CartProduct[] });
+        const hydratedProducts = cart.products.map((item) => {
+          const product = products.find((p) => p.id === item.productId);
+          return { ...item, name: product?.name || 'Unknown', price: product?.price || 0 };
+        });
+
+        setHydratedCart({ products: hydratedProducts });
 
       } catch (error) {
         console.error('An error occurred while fetching the cart:', error);
@@ -55,14 +69,13 @@ export default function CheckoutPage() {
 
   async function handleCheckout(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    // Assuming a userId of 1 for now
     try {
       const response = await fetch('http://localhost:3001/checkout', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ userId: 1 }),
+        body: JSON.stringify({ userId: LOGGED_IN_USER_ID }),
       });
 
       if (response.ok) {
