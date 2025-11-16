@@ -2,8 +2,14 @@
 
 import { useEffect, useState } from 'react';
 
+type Trend = {
+  id: number;
+  name: string;
+  trendScore: number;
+};
+
 export default function DashboardPage() {
-  const [trends, setTrends] = useState([]);
+  const [trends, setTrends] = useState<Trend[]>([]);
 
   useEffect(() => {
     // a-64: In a real app, this would fetch from the trend-analysis-service
